@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>Bing Maps Mapnik Layer - Simple Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body onload="loadMap();">
+
+<div id='mapDiv' style="width:100%; height: 100%;"></div>
+
+<script type="text/javascript" 
+        src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0">
+</script>
+<script type="text/javascript">
+
+    function loadMap()
+    {
+        var MM = Microsoft.Maps;
+        var map = new MM.Map(document.getElementById("mapDiv"), {
+            center: new MM.Location(39.5, -8),
+            backgroundColor: MM.Color.fromHex('#5ac2d7'),
+            mapTypeId: MM.MapTypeId.mercator,
+            zoom: 3,
+            credentials:"YOUR CREDENTIALS"});
+
+        var tileSource = new MM.TileSource({ uriConstructor:  function (tile) {
+
+            var x = tile.x;
+            var z = tile.levelOfDetail;
+            var y = tile.y;
+
+            return "/" + z + "/" + x + "/" + y;
+        }});
+
+        var tileLayer = new MM.TileLayer({ mercator: tileSource});
+        map.entities.push(tileLayer);
+    }
+</script>
+</body>
+</html>
