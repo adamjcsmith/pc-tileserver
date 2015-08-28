@@ -4,6 +4,8 @@ var compress = require('compress');
 
 var mapnik = require('mapnik');
 mapnik.register_datasources("./node_modules/mapnik/lib/binding/node-v11-linux-x64/mapnik/input");
+mapnik.register_default_input_plugins();
+
 
 var mercator = require('sphericalmercator');
 
@@ -28,11 +30,9 @@ app.get('/:z/:x/:y', function(req, res) {
     var map = new mapnik.Map(256, 256);
 
     map.load(stylesheet,
-        function(err,map) {
-            if (err) {
-                res.end(err.message);
-            }
-
+        function(err, map) {
+            if (err) throw err;
+			
             var bbox = merc.bbox(x, y, z, false, '900913');
             map.extent = bbox;
 
